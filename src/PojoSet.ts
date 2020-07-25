@@ -43,6 +43,15 @@ function toArray<T extends PropertyKey>(set: PojoSet<T>): T[] {
 }
 
 /**
+ * Count the number of values contained in a PojoSet.
+ * @param set A PojoSet
+ * @returns the number of values in the PojoSet
+ */
+function size<T extends PropertyKey>(set: PojoSet<T>): number {
+  return toArray(set).length;
+}
+
+/**
  * Create a PojoSet from the values of a Typescript Enum.
  *
  * @param enumObj A typescript `enum` object
@@ -175,6 +184,7 @@ export const PojoSet = {
   remove,
   toggle,
   has,
+  size,
   from,
   toArray,
   fromEnum,

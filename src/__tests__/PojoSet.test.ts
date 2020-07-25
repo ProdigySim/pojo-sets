@@ -196,6 +196,12 @@ describe('PojoSet', () => {
     leibnizTest<typeof ssss, PojoSet<'a' | 'b' | 'c'> | PojoSet<'a' | 'b' | 'c' | 'd'>>(identity);
   });
 
+  it('should return the number of values in the set', () => {
+    const set = PojoSet.from(['a', 'b', 'c']);
+    expect(PojoSet.size(set)).toEqual(3);
+    expect(PojoSet.size(PojoSet.remove(set, 'b'))).toEqual(2);
+  });
+
   it('should create an empty set', () => {
     const s = PojoSet.empty<'a' | 'b'>();
     leibnizTest<typeof s, PojoSet<'a' | 'b'>>(identity);
