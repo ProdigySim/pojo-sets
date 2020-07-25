@@ -1,5 +1,5 @@
 /**
- * Plain-old-javascript-object Set Implementaiton.
+ * Plain-old-javascript-object Set Implementation.
  *
  * Values in the set will have a value of `true`.
  */
