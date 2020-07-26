@@ -33,7 +33,7 @@ enum MyHybridEnum {
 
 describe('PojoSet', () => {
   it('should make a set', () => {
-    expect(PojoSet.from(['a', 'b', 'c'])).toEqual({
+    expect(PojoSet.from(['a', 'b', 'c'])).toStrictEqual({
       a: true,
       b: true,
       c: true,
@@ -45,7 +45,7 @@ describe('PojoSet', () => {
 
     const a = set.a;
     leibnizTest<typeof a, true | undefined>(identity);
-    expect(a).toBeTruthy();
+    expect(a).toBe(true);
   });
 
   it('should have sound types', () => {
@@ -61,7 +61,7 @@ describe('PojoSet', () => {
   });
 
   it('should filter out dupes', () => {
-    expect(PojoSet.from(['a', 'b', 'c', 'b'])).toEqual({
+    expect(PojoSet.from(['a', 'b', 'c', 'b'])).toStrictEqual({
       a: true,
       b: true,
       c: true,
@@ -69,7 +69,7 @@ describe('PojoSet', () => {
   });
 
   it('should serialize a set', () => {
-    expect(PojoSet.toArray(PojoSet.from(['a', 'b', 'c']))).toEqual(['a', 'b', 'c']);
+    expect(PojoSet.toArray(PojoSet.from(['a', 'b', 'c']))).toStrictEqual(['a', 'b', 'c']);
   });
 
   it('should serialize a set with items manually removed', () => {
@@ -81,7 +81,7 @@ describe('PojoSet', () => {
 
     const out = PojoSet.toArray(ss);
     leibnizTest<typeof out, Array<'a' | 'b' | 'c'>>(identity);
-    expect(out).toEqual(['a', 'b']);
+    expect(out).toStrictEqual(['a', 'b']);
   });
 
   it('should make a set from a string enum', () => {
@@ -89,21 +89,21 @@ describe('PojoSet', () => {
     leibnizTest<typeof res, PojoSet<MyStringEnum>>(identity);
 
     const s = PojoSet.fromEnum(MyStringEnum);
-    expect(s).toEqual({
+    expect(s).toStrictEqual({
       a: true,
       b: true,
       c: true,
     });
-    expect(s[MyStringEnum.one]).toEqual(true);
-    expect(s[MyStringEnum.two]).toEqual(true);
-    expect(s[MyStringEnum.three]).toEqual(true);
+    expect(s[MyStringEnum.one]).toBe(true);
+    expect(s[MyStringEnum.two]).toBe(true);
+    expect(s[MyStringEnum.three]).toBe(true);
   });
 
   it('should make a set from a numeric enum', () => {
     const res = PojoSet.fromEnum(MyNumericEnum);
 
     leibnizTest<typeof res, PojoSet<MyNumericEnum>>(identity);
-    expect(res).toEqual({
+    expect(res).toStrictEqual({
       1: true,
       2: true,
       3: true,
@@ -114,7 +114,7 @@ describe('PojoSet', () => {
     const res = PojoSet.fromEnum(MyHybridEnum);
 
     leibnizTest<typeof res, PojoSet<MyHybridEnum>>(identity);
-    expect(res).toEqual({
+    expect(res).toStrictEqual({
       1: true,
       2: true,
       3: true,
@@ -127,13 +127,13 @@ describe('PojoSet', () => {
   it('should add to a set immutably', () => {
     const s = PojoSet.from(['a', 'b', 'c']);
     const ss = PojoSet.add(s, 'd');
-    expect(ss).toEqual({
+    expect(ss).toStrictEqual({
       a: true,
       b: true,
       c: true,
       d: true,
     });
-    expect(s).toEqual({
+    expect(s).toStrictEqual({
       a: true,
       b: true,
       c: true,
@@ -144,13 +144,13 @@ describe('PojoSet', () => {
     const s = PojoSet.from(['a', 'b', 'c']);
     const ss = PojoSet.toggle(s, 'd', true);
     leibnizTest<typeof ss, PojoSet<'a' | 'b' | 'c' | 'd'>>(identity);
-    expect(ss).toEqual({
+    expect(ss).toStrictEqual({
       a: true,
       b: true,
       c: true,
       d: true,
     });
-    expect(s).toEqual({
+    expect(s).toStrictEqual({
       a: true,
       b: true,
       c: true,
@@ -160,11 +160,11 @@ describe('PojoSet', () => {
   it('should remove from a set immutably', () => {
     const s = PojoSet.from(['a', 'b', 'c']);
     const ss = PojoSet.remove(s, 'c');
-    expect(ss).toEqual({
+    expect(ss).toStrictEqual({
       a: true,
       b: true,
     });
-    expect(s).toEqual({
+    expect(s).toStrictEqual({
       a: true,
       b: true,
       c: true,
@@ -174,11 +174,11 @@ describe('PojoSet', () => {
   it('should remove from a set immutably via toggle', () => {
     const s = PojoSet.from(['a', 'b', 'c']);
     const ss = PojoSet.toggle(s, 'c', false);
-    expect(ss).toEqual({
+    expect(ss).toStrictEqual({
       a: true,
       b: true,
     });
-    expect(s).toEqual({
+    expect(s).toStrictEqual({
       a: true,
       b: true,
       c: true,
@@ -199,8 +199,8 @@ describe('PojoSet', () => {
 
   it('should return the number of values in the set', () => {
     const set = PojoSet.from(['a', 'b', 'c']);
-    expect(PojoSet.size(set)).toEqual(3);
-    expect(PojoSet.size(PojoSet.remove(set, 'b'))).toEqual(2);
+    expect(PojoSet.size(set)).toStrictEqual(3);
+    expect(PojoSet.size(PojoSet.remove(set, 'b'))).toStrictEqual(2);
   });
 
   it('should create an empty set', () => {
@@ -223,8 +223,8 @@ describe('PojoSet', () => {
     leibnizTest<typeof ab, typeof ba>(identity);
     leibnizTest<typeof ab, PojoSet<'a' | 'b' | 'c' | 'd' | 'e'>>(identity);
 
-    expect(ab).toEqual(ba);
-    expect(ab).toEqual({
+    expect(ab).toStrictEqual(ba);
+    expect(ab).toStrictEqual({
       a: true,
       b: true,
       c: true,
@@ -245,8 +245,8 @@ describe('PojoSet', () => {
     // I'm almost surprised this works but not terribly surprised!
     leibnizTest<typeof ab, PojoSet<MyHybridEnum>>(identity);
 
-    expect(ab).toEqual(ba);
-    expect(ab).toEqual({
+    expect(ab).toStrictEqual(ba);
+    expect(ab).toStrictEqual({
       a: true,
       b: true,
       c: true,
@@ -266,11 +266,11 @@ describe('PojoSet', () => {
     leibnizTest<typeof aLessB, PojoSet<'a'>>(identity);
     leibnizTest<typeof bLessA, PojoSet<'d' | 'e'>>(identity);
 
-    expect(aLessB).not.toEqual(bLessA);
-    expect(aLessB).toEqual({
+    expect(aLessB).not.toStrictEqual(bLessA);
+    expect(aLessB).toStrictEqual({
       a: true,
     });
-    expect(bLessA).toEqual({
+    expect(bLessA).toStrictEqual({
       d: true,
       e: true,
     });
@@ -288,9 +288,9 @@ describe('PojoSet', () => {
     leibnizTest<typeof bLessA, PojoSet<MyNumericEnum>>(identity);
     leibnizTest<typeof bLessA, PojoSet<Exclude<MyNumericEnum, MyStringEnum>>>(identity);
 
-    expect(aLessB).not.toEqual(bLessA);
-    expect(aLessB).toEqual(a);
-    expect(bLessA).toEqual(b);
+    expect(aLessB).not.toStrictEqual(bLessA);
+    expect(aLessB).toStrictEqual(a);
+    expect(bLessA).toStrictEqual(b);
   });
 
   it('should do a set difference with hybrid enums', () => {
@@ -306,15 +306,15 @@ describe('PojoSet', () => {
     leibnizTest<typeof stringsLessHybrid, PojoSet<never>>(identity);
     leibnizTest<typeof stringsLessHybrid, PojoSet<Exclude<MyStringEnum, MyHybridEnum>>>(identity);
 
-    expect(hybridLessStrings).not.toEqual(stringsLessHybrid);
-    expect(hybridLessStrings).not.toEqual(a);
-    expect(hybridLessStrings).not.toEqual(b);
-    expect(hybridLessStrings).toEqual(c);
+    expect(hybridLessStrings).not.toStrictEqual(stringsLessHybrid);
+    expect(hybridLessStrings).not.toStrictEqual(a);
+    expect(hybridLessStrings).not.toStrictEqual(b);
+    expect(hybridLessStrings).toStrictEqual(c);
 
-    expect(stringsLessHybrid).not.toEqual(a);
-    expect(stringsLessHybrid).not.toEqual(b);
-    expect(stringsLessHybrid).not.toEqual(c);
-    expect(stringsLessHybrid).toEqual({});
+    expect(stringsLessHybrid).not.toStrictEqual(a);
+    expect(stringsLessHybrid).not.toStrictEqual(b);
+    expect(stringsLessHybrid).not.toStrictEqual(c);
+    expect(stringsLessHybrid).toStrictEqual({});
   });
 
   it('should do set intersections', () => {
@@ -329,7 +329,7 @@ describe('PojoSet', () => {
     const res = PojoSet.intersection(a, b);
     leibnizTest<typeof res, PojoSet<4 | 5>>(identity);
 
-    expect(res).toEqual(mathematicalIntersection);
-    expect(res).toEqual(PojoSet.intersection(b, a));
+    expect(res).toStrictEqual(mathematicalIntersection);
+    expect(res).toStrictEqual(PojoSet.intersection(b, a));
   });
 });
