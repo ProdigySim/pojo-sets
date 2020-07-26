@@ -139,6 +139,7 @@ describe('PojoSet', () => {
       c: true,
     });
   });
+  
   it('should add to a set immutably via toggle', () => {
     const s = PojoSet.from(['a', 'b', 'c']);
     const ss = PojoSet.toggle(s, 'd', true);
